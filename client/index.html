@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Footer Custom Generator</title>
+  <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+</head>
+<body>
+  <div id="main">
+      <h1>TEST TAG</h1>
+
+      <form id="cities-form" action="/api/edit/city">
+        <div>
+          <label for="display-regions-selector">Attach to a region</label>
+          <input id="display-regions-selector" type="checkbox">
+          <label for="display-districts-selector">Attach to a district</label>
+          <input id="display-districts-selector" type="checkbox">
+        </div>
+        <label for="city-name">Name</label>
+        <input type="text" name="cityName" id="city-name">
+        <label for="city-link">Link</label>
+        <input type="text" name="cityLink" id="city-link">
+
+        <input type="submit" value="valider">
+      </form>
+
+      <form id="divisions-form" action="/api/edit/division">
+        <div>
+          <label for="division-region">Région</label>
+          <input type="radio" name="divisionType" id="division-region" value="regions" checked>
+          <label for="division-district">Département</label>
+          <input type="radio" name="divisionType" id="division-district" value="districts">
+        </div>
+        <label for="division-name">Name</label>
+        <input type="text" name="divisionName" id="division-name">
+        <label for="division-link">Link</label>
+        <input type="text" name="divisionLink" id="division-link">
+
+        <input type="submit" value="valider">
+      </form>
+
+      <div data-list="regions" id="regions-area"></div>
+      <div data-list="districts" id="districts-area"></div>
+      <div data-list="cities" id="cities-area"></div>
+
+      <div>
+        <button id="download-json">Download Json</button>
+      </div>
+  </div>
+
+  <script type="text/javascript" src="dist/js/app.js"></script>
+</body>
+</html>
