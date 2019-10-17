@@ -28,7 +28,6 @@ class DivisionsForm extends ObjectManager {
 
         [].forEach.call(divisionTypeInputs, (input) => {
             input.addEventListener('change', () => {
-                console.log(input.value);
                 if (input.value === 'districts') {
                     this.displayCheckboxSelector(true);
                     return true;
@@ -48,8 +47,6 @@ class DivisionsForm extends ObjectManager {
             const regionAttachment = this.form.querySelector('select[name="region-selector"]').value;
             const dataRegionAttachments = this.objectManager.get('regions', regionAttachment);
 
-            const attachedRegionDistricts = dataRegionAttachments.attachment.districts;
-
             [].forEach.call(divisionTypeInputs, (input) => {
                 if (input.checked) {
                     divisionType = input.value;
@@ -60,7 +57,9 @@ class DivisionsForm extends ObjectManager {
 
             const normalizedName = this.objectManager.add(divisionType, {name: divisionName, link: divisionLink, attachment: attachmentObject});
 
-            if (checkboxDrS.checked && divisionType === 'districts') {
+            if (checkboxDrS.checked && divisionType === 'districts' && Object.keys(dataRegionAttachments).length > 0) {
+                const attachedRegionDistricts = dataRegionAttachments.attachment.districts;
+
                 //check if district in array
                 if (attachedRegionDistricts.indexOf(normalizedName) < 0) {
                     attachedRegionDistricts.push(normalizedName);
@@ -93,6 +92,7 @@ class DivisionsForm extends ObjectManager {
 
     displayCheckboxSelector(display) {
         const checkboxDrS = this.form.querySelector('input[name="displayRegionsSelector"]');
+        const regionSelector = this.form.querySelector('select[name="region-selector"]');
 
         if (checkboxDrS === null) {
             return false;
@@ -104,6 +104,7 @@ class DivisionsForm extends ObjectManager {
         }
 
         checkboxDrS.checked = false;
+        regionSelector.style.display = "none";
         checkboxDrS.parentElement.style.display = "none";
     }
 }

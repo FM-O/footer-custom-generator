@@ -42,13 +42,12 @@ class CitiesForm extends ObjectManager {
 
             const cityName = this.form.querySelector('input[name="cityName"]').value;
             const cityLink = this.form.querySelector('input[name="cityLink"]').value;
+
+            // Attachment logic
             const regionAttachment = this.form.querySelector('select[name="region-selector"]').value;
             const districtAttachment = this.form.querySelector('select[name="district-selector"]').value;
             const dataRegionAttachments = this.objectManager.get('regions', regionAttachment);
             const dataDistrictAttachments = this.objectManager.get('districts', districtAttachment);
-
-            const attachedRegionCities = dataRegionAttachments.attachment.cities;
-            const attachedDistrictCities = dataDistrictAttachments.attachment.cities;
 
             // putting "name" property in your data (2nd option) make a completely new object.
             const normalizedName = this.objectManager.add('cities', {name: cityName, link: cityLink});
@@ -57,7 +56,9 @@ class CitiesForm extends ObjectManager {
                 return;
             }
             
-            if (checkboxDrS.checked) {
+            if (checkboxDrS.checked && Object.keys(dataRegionAttachments).length > 0) {
+                const attachedRegionCities = dataRegionAttachments.attachment.cities;
+
                 //check if city in array
                 if (attachedRegionCities.indexOf(normalizedName) < 0) {
                     attachedRegionCities.push(normalizedName);
@@ -70,7 +71,9 @@ class CitiesForm extends ObjectManager {
                 }, regionAttachment);
             }
 
-            if (checkboxDdS.checked) {
+            if (checkboxDdS.checked && Object.keys(dataDistrictAttachments).length > 0) {
+                const attachedDistrictCities = dataDistrictAttachments.attachment.cities;
+
                 //check if city in array
                 if (attachedDistrictCities.indexOf(normalizedName) < 0) {
                     attachedDistrictCities.push(normalizedName);
