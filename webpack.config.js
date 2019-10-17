@@ -19,7 +19,7 @@ module.exports = {
     path: path.join(__dirname, '/client/dist'),
     filename: 'js/app.js'
   },
-
+  devtool: 'source-map',
   module: {
     // apply rules to files that meet given conditions
     rules: [{

@@ -4,17 +4,23 @@
   <meta charset="utf-8">
   <title>Footer Custom Generator</title>
   <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+  <style>
+    select {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div id="main">
       <h1>TEST TAG</h1>
 
+      <h2>Créer une VILLE</h2>
       <form id="cities-form" action="/api/edit/city">
         <div>
           <label for="display-regions-selector">Attach to a region</label>
-          <input id="display-regions-selector" type="checkbox">
+          <input id="display-regions-selector" name="displayRegionsSelector" type="checkbox">
           <label for="display-districts-selector">Attach to a district</label>
-          <input id="display-districts-selector" type="checkbox">
+          <input id="display-districts-selector" name="displayDistrictsSelector" type="checkbox">
         </div>
         <label for="city-name">Name</label>
         <input type="text" name="cityName" id="city-name">
@@ -24,12 +30,17 @@
         <input type="submit" value="valider">
       </form>
 
+      <h2>Créer une REGION OU DEPARTEMENT</h2>
       <form id="divisions-form" action="/api/edit/division">
         <div>
           <label for="division-region">Région</label>
           <input type="radio" name="divisionType" id="division-region" value="regions" checked>
           <label for="division-district">Département</label>
           <input type="radio" name="divisionType" id="division-district" value="districts">
+        </div>
+        <div style="display: none;">
+          <label for="display-regions-selector-divisions">Attach to a region</label>
+          <input id="display-regions-selector-divisions" name="displayRegionsSelector" type="checkbox">
         </div>
         <label for="division-name">Name</label>
         <input type="text" name="divisionName" id="division-name">

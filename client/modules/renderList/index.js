@@ -17,6 +17,7 @@ class RenderList extends ObjectManager {
             this.fillListArea(list, data);
         });
 
+        this.buildDistrictSelectors();
         this.buildRegionSelectors();
     }
 
@@ -57,7 +58,9 @@ class RenderList extends ObjectManager {
         selector.id = 'cities-region-selector';
         selector.name = 'region-selector';
         const citiesForm = document.querySelector('#cities-form');
+        const divisionsForm = document.querySelector('#divisions-form');
         const citiesFormSubmit = citiesForm.querySelector('input[type="submit"]');
+        const divisionsFormSubmit = divisionsForm.querySelector('input[type="submit"]');
 
         const regions = this.objectManager.get('regions');
 
@@ -66,6 +69,38 @@ class RenderList extends ObjectManager {
                 const option = document.createElement('option');
                 option.value = region;
                 option.innerHTML = regions[region].name;
+
+                selector.appendChild(option);
+            }
+        }
+
+        const clonedSelector = selector.cloneNode(true);
+        clonedSelector.id = 'division-region-selector';
+
+        citiesForm.insertBefore(selector, citiesFormSubmit);
+        divisionsForm.insertBefore(clonedSelector, divisionsFormSubmit);
+    }
+
+    buildDistrictSelectors() {
+        const oldDisctrictSelector = document.getElementById('cities-district-selector');
+
+        if (oldDisctrictSelector !== null) {
+            oldDisctrictSelector.parentElement.removeChild(oldDisctrictSelector);
+        }
+
+        const selector = document.createElement('select');
+        selector.id = 'cities-district-selector';
+        selector.name = 'district-selector';
+        const citiesForm = document.querySelector('#cities-form');
+        const citiesFormSubmit = citiesForm.querySelector('input[type="submit"]');
+
+        const disctricts = this.objectManager.get('districts');
+
+        for (const district in disctricts) {
+            if (disctricts.hasOwnProperty(district)) {
+                const option = document.createElement('option');
+                option.value = district;
+                option.innerHTML = disctricts[district].name;
 
                 selector.appendChild(option);
             }
