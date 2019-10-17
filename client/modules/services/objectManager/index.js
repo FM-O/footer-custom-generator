@@ -44,7 +44,7 @@ class ObjectManager {
 
         const normalizedString = string.toLowerCase().trim();
 
-        return Diacritics.remove(normalizedString.split(' ').join('-'));
+        return Diacritics.remove(normalizedString.split(' ').join('-').split('\'').join('-'));
     }
 }
   

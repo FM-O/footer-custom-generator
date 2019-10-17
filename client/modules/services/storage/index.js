@@ -69,6 +69,18 @@ class Storage {
       return formattedData;
     }
 
+    static getAllData() {
+      const allData = {};
+      for (const data in localStorage) {
+        if (localStorage.hasOwnProperty(data)) {
+          const dataset = this.__deserialize(localStorage[data]);
+          allData[data] = dataset;
+        }
+      }
+
+      return allData;
+    }
+
     static __serialize(data) {
       return JSON.stringify(data);
     }

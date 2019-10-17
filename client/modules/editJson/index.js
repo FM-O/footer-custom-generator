@@ -13,7 +13,7 @@ class EditJson {
     }
 
     fillJsonfile() {
-        const storageData = JSON.stringify(Storage.getData('cities'));
+        const storageData = JSON.stringify(Storage.getAllData());
         const data = JSON.stringify({jsonData: storageData});
         const xhr = new XMLHttpRequest();
 
