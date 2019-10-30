@@ -4,8 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // CONFIG
 const PLUGINS = [
     new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: 'css/[name].css',
+        chunkFilename: 'css/[id].css'
     })
 ];
 
@@ -35,7 +35,11 @@ module.exports = {
     },
     {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'sass-loader']
+        use: [
+          MiniCssExtractPlugin.loader, 
+          { loader: 'css-loader', options: {sourceMap: true} },
+          { loader: 'sass-loader', options: {sourceMap: true} },
+        ]
     }]
   },
   plugins: PLUGINS,
