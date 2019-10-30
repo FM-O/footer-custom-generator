@@ -46,8 +46,20 @@ class Storage {
 
       const dataGroup = this.getData(group);
       delete dataGroup[name];
-      this.setData(group, dataGroup);
+      this.setDataGroup(group, dataGroup);
       return;
+    }
+
+    static setDataGroup(group, newGroup) {
+      localStorage.setItem(group, this.__serialize(newGroup));
+      
+      const event = new CustomEvent('storageChange', {
+        detail: {
+          groupType: group
+        }
+      });
+
+      window.dispatchEvent(event);
     }
 
     /**

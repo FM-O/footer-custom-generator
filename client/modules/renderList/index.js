@@ -14,14 +14,14 @@ class RenderList extends ObjectManager {
             const dataGroupTarget = list.getAttribute('data-list');
             const data = this.objectManager.get(dataGroupTarget);
 
-            this.fillListArea(list, data);
+            this.fillListArea(list, data, dataGroupTarget);
         });
 
         this.buildDistrictSelectors();
         this.buildRegionSelectors();
     }
 
-    fillListArea(element, data) {
+    fillListArea(element, data, groupType) {
         if (Object.keys(data).length === 0) {
             return false;
         }
@@ -40,7 +40,16 @@ class RenderList extends ObjectManager {
             elementLink.target = '_blank';
             elementLink.innerHTML = data[element].name;
 
+            const deleteLink = elementLink.cloneNode(true);
+            deleteLink.href = "#";
+            deleteLink.className = "delete-button";
+            deleteLink.setAttribute('data-list', groupType);
+            deleteLink.setAttribute('data-element', element);
+            deleteLink.innerHTML = 'delete';
+            this.attachDeleteEvent(deleteLink);
+
             elementList.appendChild(elementLink);
+            elementList.appendChild(deleteLink);
             list.appendChild(elementList);
         }
 
@@ -107,6 +116,13 @@ class RenderList extends ObjectManager {
         }
 
         citiesForm.insertBefore(selector, citiesFormSubmit);
+    }
+
+    attachDeleteEvent(link) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.objectManager.delete(link.getAttribute('data-list'), link.getAttribute('data-element'));
+        });
     }
 }
   

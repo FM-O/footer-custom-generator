@@ -37,24 +37,41 @@ class StorageObserver extends ObjectManager {
             elementLink.target = '_blank';
             elementLink.innerHTML = data[element].name;
 
+            const deleteLink = elementLink.cloneNode(true);
+            deleteLink.href = "#";
+            deleteLink.className = "delete-button";
+            deleteLink.setAttribute('data-list', groupType);
+            deleteLink.setAttribute('data-element', element);
+            deleteLink.innerHTML = 'delete';
+            this.attachDeleteEvent(deleteLink);
+
             elementList.appendChild(elementLink);
+            elementList.appendChild(deleteLink);
             citiesList.appendChild(elementList);
             
-            if (data[element].attachment !== undefined) {
-                for (const attachment in data[element].attachment) {
-                    if (data[element].attachment.hasOwnProperty(attachment)) {
-                        const areaType = data[element].attachment[attachment];
+            // if (data[element].attachment !== undefined) {
+            //     for (const attachment in data[element].attachment) {
+            //         if (data[element].attachment.hasOwnProperty(attachment)) {
+            //             const areaType = data[element].attachment[attachment];
+            //             console.log(areaType);
 
-                        areaType.forEach(location => {
-                            const locationData = this.objectManager.get(attachment, location);
-                            console.log(locationData);
-                        });
-                    }
-                }
-            }
+            //             areaType.forEach(location => {
+            //                 const locationData = this.objectManager.get(attachment, location);
+            //                 console.log(locationData);
+            //             });
+            //         }
+            //     }
+            // }
         }
 
         this.groups[groupType].appendChild(citiesList);
+    }
+
+    attachDeleteEvent(link) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.objectManager.delete(link.getAttribute('data-list'), link.getAttribute('data-element'));
+        });
     }
 }
   
