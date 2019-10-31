@@ -66,10 +66,8 @@ class RenderList extends ObjectManager {
         const selector = document.createElement('select');
         selector.id = 'cities-region-selector';
         selector.name = 'region-selector';
-        const citiesForm = document.querySelector('#cities-form');
-        const divisionsForm = document.querySelector('#divisions-form');
-        const citiesFormSubmit = citiesForm.querySelector('input[type="submit"]');
-        const divisionsFormSubmit = divisionsForm.querySelector('input[type="submit"]');
+        const cityRegionsOption = document.querySelector('#city-attach-region-option');
+        const districtRegionsOption = document.querySelector('#district-attach-region-option');
 
         const regions = this.objectManager.get('regions');
 
@@ -86,12 +84,14 @@ class RenderList extends ObjectManager {
         const clonedSelector = selector.cloneNode(true);
         clonedSelector.id = 'division-region-selector';
 
-        citiesForm.insertBefore(selector, citiesFormSubmit);
-        divisionsForm.insertBefore(clonedSelector, divisionsFormSubmit);
+        cityRegionsOption.appendChild(selector);
+        districtRegionsOption.appendChild(clonedSelector);
     }
 
     buildDistrictSelectors() {
+        const cityDistrictsOption = document.querySelector('#city-attach-district-option');
         const oldDisctrictSelector = document.getElementById('cities-district-selector');
+        console.log(oldDisctrictSelector);
 
         if (oldDisctrictSelector !== null) {
             oldDisctrictSelector.parentElement.removeChild(oldDisctrictSelector);
@@ -100,8 +100,6 @@ class RenderList extends ObjectManager {
         const selector = document.createElement('select');
         selector.id = 'cities-district-selector';
         selector.name = 'district-selector';
-        const citiesForm = document.querySelector('#cities-form');
-        const citiesFormSubmit = citiesForm.querySelector('input[type="submit"]');
 
         const disctricts = this.objectManager.get('districts');
 
@@ -115,7 +113,7 @@ class RenderList extends ObjectManager {
             }
         }
 
-        citiesForm.insertBefore(selector, citiesFormSubmit);
+        cityDistrictsOption.appendChild(selector);
     }
 
     attachDeleteEvent(link) {

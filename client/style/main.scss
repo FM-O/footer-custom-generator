@@ -1,3 +1,165 @@
 body {
-    background: red;
+    padding: 30px 0;
+    font-family: 'Open Sans', sans-serif;
+
+    // Globals
+    h1,
+    h2,
+    h3 {
+        font-size: 20px;
+    }
+
+    .main-wrapper {
+        @media (min-width: 991px) {
+            margin: auto;
+            width: 1170px;
+        }
+    }
+
+    .main-title {
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 24px;
+    }
+
+    .delete-button {
+        margin-left: 10px;
+    }
+
+    select {
+        display: none;
+    }
+
+    // Specifics
+    .forms-section {
+        display: flex;
+        margin-top: 40px;
+
+        .form-unit {
+            position: relative;
+            border: 1px solid black;
+            margin: 0 15px;
+            padding: 15px;
+            width: calc(50% - 62px);
+
+            .section-title {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                margin: 0;
+                background: white;
+                padding: 0 10px;
+                white-space: nowrap;
+            }
+
+            form {
+                margin-top: 10px;
+                font-size: 14px;
+
+                .city-attachment-options {
+                    margin-bottom: 10px;
+
+                    .options-group {
+                        margin-top: 5px;
+                    }
+                }
+
+                .district-attachment-options {
+                    margin-top: 10px;
+                }
+
+                .city-infos,
+                .division-infos {
+                    .infos-group {
+                        display: flex;
+                        flex-direction: column;
+                        margin-top: 10px;
+
+                        & > input {
+                            padding: 8px 10px;
+                        }
+                    }
+                }
+
+                input[type="submit"] {
+                    display: block;
+                    margin-top: 15px;
+                    cursor: pointer;
+                    padding: 5px 20px;
+                    background: whitesmoke;
+                    text-transform: uppercase;
+                    font-family: 'Open Sans', sans-serif;
+                }
+            }
+        }
+    }
+
+    .results-section {
+        position: relative;
+        border: 1px solid black;
+        margin: 30px 15px 0;
+        padding: 15px;
+
+        .section-title {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            background: white;
+            padding: 0 10px;
+            white-space: nowrap;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 15px;
+    
+            .regions-wrapper,
+            .districts-wrapper,
+            .cities-wrapper {
+                .list-title {
+                    margin-top: 5px;
+                    margin-bottom: 0;
+                    font-size: 16px;
+                }
+    
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+    
+                    li {
+                        a {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .download-wrapper {
+            margin-top: 20px;
+            text-align: center;
+
+            &::before {
+                display: block;
+                height: 1px;
+                background: rgb(214, 214, 214);
+                content: '';
+            }
+
+            & > button {
+                display: inline-block;
+                margin-top: 15px;
+                cursor: pointer;
+                padding: 5px 20px;
+                background: whitesmoke;
+                text-transform: uppercase;
+                font-family: 'Open Sans', sans-serif;
+            }
+        }
+    }
 }
