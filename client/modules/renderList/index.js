@@ -14,21 +14,23 @@ class RenderList extends ObjectManager {
             const dataGroupTarget = list.getAttribute('data-list');
             const data = this.objectManager.get(dataGroupTarget);
 
-            this.fillListArea(list, data, dataGroupTarget);
+            const oldCitiesList = list.firstElementChild;
+            if (oldCitiesList !== null) {
+                element.removeChild(oldCitiesList);
+            }
+
+            const newList = this.fillListArea(data, dataGroupTarget);
+
+            list.appendChild(newList);
         });
 
         this.buildDistrictSelectors();
         this.buildRegionSelectors();
     }
 
-    fillListArea(element, data, groupType) {
+    fillListArea(data, groupType) {
         if (Object.keys(data).length === 0) {
             return false;
-        }
-        
-        const oldCitiesList = element.firstElementChild;
-        if (oldCitiesList !== null) {
-            element.removeChild(oldCitiesList);
         }
 
         const list = document.createElement('ul');
@@ -50,10 +52,19 @@ class RenderList extends ObjectManager {
 
             elementList.appendChild(elementLink);
             elementList.appendChild(deleteLink);
+
+            if (data[element].hasOwnProperty('attachment')) {
+                const sublist = this.buildSublist(data[element].attachment);
+
+                if (sublist) {
+                    elementList.appendChild(sublist);
+                }
+            }
+
             list.appendChild(elementList);
         }
 
-        element.appendChild(list);
+        return list;
     }
 
     buildRegionSelectors() {
@@ -91,7 +102,6 @@ class RenderList extends ObjectManager {
     buildDistrictSelectors() {
         const cityDistrictsOption = document.querySelector('#city-attach-district-option');
         const oldDisctrictSelector = document.getElementById('cities-district-selector');
-        console.log(oldDisctrictSelector);
 
         if (oldDisctrictSelector !== null) {
             oldDisctrictSelector.parentElement.removeChild(oldDisctrictSelector);
@@ -114,6 +124,63 @@ class RenderList extends ObjectManager {
         }
 
         cityDistrictsOption.appendChild(selector);
+    }
+
+    buildSublist(attachments) {
+        const sublist = document.createElement('ul');
+        sublist.className = 'sublist';
+
+        for (const group in attachments) {
+            if (attachments.hasOwnProperty(group)) {
+                const list = attachments[group];
+
+                if (list.length <= 0) {
+                    return false;
+                }
+
+                list.forEach(element => {
+                    const line = this.createLine(group, element);
+
+                    if (line) {
+                        sublist.appendChild(line);
+                    }
+                });
+            }
+        }
+
+        return sublist;
+    }
+
+    createLine(groupType, entity) {
+        const elementList = document.createElement('li');
+
+        const data = this.objectManager.get(groupType, entity);
+
+        if (data === undefined) {
+            return false;
+        }
+
+        const elementLink = document.createElement('a');
+        elementLink.href = data.link;
+        elementLink.target = '_blank';
+        elementLink.innerHTML = data.name;
+
+        // const deleteLink = elementLink.cloneNode(true);
+        // deleteLink.href = "#";
+        // deleteLink.className = "delete-button";
+        // deleteLink.setAttribute('data-list', groupType);
+        // deleteLink.setAttribute('data-element', element);
+        // deleteLink.innerHTML = 'delete';
+        // this.attachDeleteEvent(deleteLink);
+
+        elementList.appendChild(elementLink);
+        // elementList.appendChild(deleteLink);
+
+        // if (data[element].hasOwnProperty('attachment')) {
+        //     this.buildSublist(data[element].attachment);
+        // }
+
+        return elementList;
     }
 
     attachDeleteEvent(link) {

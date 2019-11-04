@@ -58,7 +58,7 @@ body {
                 font-size: 14px;
 
                 .city-attachment-options {
-                    margin-bottom: 10px;
+                    margin-top: 10px;
 
                     .options-group {
                         margin-top: 5px;
@@ -66,7 +66,7 @@ body {
                 }
 
                 .district-attachment-options {
-                    margin-top: 10px;
+                    margin-top: 5px;
                 }
 
                 .city-infos,
@@ -80,6 +80,10 @@ body {
                             padding: 8px 10px;
                         }
                     }
+                }
+
+                .division-choice {
+                    margin-top: 10px;
                 }
 
                 input[type="submit"] {
@@ -135,6 +139,10 @@ body {
                         a {
                             font-size: 12px;
                         }
+                    }
+
+                    .sublist {
+                        padding-left: 15px;
                     }
                 }
             }

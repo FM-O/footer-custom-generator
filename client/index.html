@@ -16,17 +16,6 @@
           <article class="form-unit">
             <h2 class="section-title">Créer une ville</h2>
             <form id="cities-form" action="/api/edit/city">
-              <div class="city-attachment-options">
-                <div class="options-group" id="city-attach-region-option">
-                  <label for="display-regions-selector">Lier la ville à une région</label>
-                  <input id="display-regions-selector" name="displayRegionsSelector" type="checkbox">
-                </div>
-                <div class="options-group" id="city-attach-district-option">
-                  <label for="display-districts-selector">Lier la ville à un département</label>
-                  <input id="display-districts-selector" name="displayDistrictsSelector" type="checkbox">
-                </div>
-              </div>
-
               <div class="city-infos">
                 <div class="infos-group">
                   <label for="city-name">Nom de la ville</label>
@@ -37,6 +26,17 @@
                   <input type="text" name="cityLink" id="city-link" placeholder="Exemple: https://agence.loxam.fr/location/fr/linselles">
                 </div>
               </div>
+
+              <div class="city-attachment-options">
+                <div class="options-group" id="city-attach-region-option">
+                  <label for="display-regions-selector">Lier la ville à une région</label>
+                  <input id="display-regions-selector" name="displayRegionsSelector" type="checkbox">
+                </div>
+                <div class="options-group" id="city-attach-district-option">
+                  <label for="display-districts-selector">Lier la ville à un département</label>
+                  <input id="display-districts-selector" name="displayDistrictsSelector" type="checkbox">
+                </div>
+              </div>
       
               <input type="submit" value="valider">
             </form>
@@ -45,6 +45,17 @@
           <article class="form-unit">
             <h2 class="section-title">Créer une région OU un département</h2>
             <form id="divisions-form" action="/api/edit/division">
+              <div class="division-infos">
+                <div class="infos-group">
+                  <label for="division-name">Nom de l'entité</label>
+                  <input type="text" name="divisionName" id="division-name" placeholder="Exemple: Auvergne-Rhône-Alpes">
+                </div>
+                <div class="infos-group">
+                  <label for="division-link">Lien</label>
+                  <input type="text" name="divisionLink" id="division-link" placeholder="Exemple: https://agence.loxam.fr/fr/auvergne-rhone-alpes">
+                </div>
+              </div>
+
               <div class="division-choice">
                 <label for="division-region">Région</label>
                 <input type="radio" name="divisionType" id="division-region" value="regions" checked>
@@ -55,17 +66,6 @@
               <div id="district-attach-region-option" class="district-attachment-options" style="display: none;">
                 <label for="display-regions-selector-divisions">Lier à une région</label>
                 <input id="display-regions-selector-divisions" name="displayRegionsSelector" type="checkbox">
-              </div>
-
-              <div class="division-infos">
-                <div class="infos-group">
-                  <label for="division-name">Nom de l'entité</label>
-                  <input type="text" name="divisionName" id="division-name" placeholder="Exemple: Auvergne-Rhône-Alpes">
-                </div>
-                <div class="infos-group">
-                  <label for="division-link">Lien</label>
-                  <input type="text" name="divisionLink" id="division-link" placeholder="Exemple: https://agence.loxam.fr/fr/auvergne-rhone-alpes">
-                </div>
               </div>
       
               <input type="submit" value="valider">
