@@ -3,59 +3,100 @@
 <head>
   <meta charset="utf-8">
   <title>Footer Custom Generator</title>
-  <!-- <link rel="stylesheet" href="/css/styles.css"> -->
-  <style>
-    select {
-      display: none;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dist/css/main.css">
 </head>
 <body>
   <div id="main">
-      <h1>TEST TAG</h1>
+      <h1 class="main-title">Creéz votre propre footer Custom</h1>
 
-      <h2>Créer une VILLE</h2>
-      <form id="cities-form" action="/api/edit/city">
-        <div>
-          <label for="display-regions-selector">Attach to a region</label>
-          <input id="display-regions-selector" name="displayRegionsSelector" type="checkbox">
-          <label for="display-districts-selector">Attach to a district</label>
-          <input id="display-districts-selector" name="displayDistrictsSelector" type="checkbox">
-        </div>
-        <label for="city-name">Name</label>
-        <input type="text" name="cityName" id="city-name">
-        <label for="city-link">Link</label>
-        <input type="text" name="cityLink" id="city-link">
+      <div class="main-wrapper">
+        <section class="forms-section">
+          
+          <article class="form-unit">
+            <h2 class="section-title">Créer une ville</h2>
+            <form id="cities-form" action="/api/edit/city">
+              <div class="city-infos">
+                <div class="infos-group">
+                  <label for="city-name">Nom de la ville</label>
+                  <input type="text" name="cityName" id="city-name" placeholder="Exemple: Lyon">
+                </div>
+                <div class="infos-group">
+                  <label for="city-link">Lien</label>
+                  <input type="text" name="cityLink" id="city-link" placeholder="Exemple: https://agence.loxam.fr/location/fr/linselles">
+                </div>
+              </div>
 
-        <input type="submit" value="valider">
-      </form>
+              <div class="city-attachment-options">
+                <div class="options-group" id="city-attach-region-option">
+                  <label for="display-regions-selector">Lier la ville à une région</label>
+                  <input id="display-regions-selector" name="displayRegionsSelector" type="checkbox">
+                </div>
+                <div class="options-group" id="city-attach-district-option">
+                  <label for="display-districts-selector">Lier la ville à un département</label>
+                  <input id="display-districts-selector" name="displayDistrictsSelector" type="checkbox">
+                </div>
+              </div>
+      
+              <input type="submit" value="valider">
+            </form>
+          </article>
 
-      <h2>Créer une REGION OU DEPARTEMENT</h2>
-      <form id="divisions-form" action="/api/edit/division">
-        <div>
-          <label for="division-region">Région</label>
-          <input type="radio" name="divisionType" id="division-region" value="regions" checked>
-          <label for="division-district">Département</label>
-          <input type="radio" name="divisionType" id="division-district" value="districts">
-        </div>
-        <div style="display: none;">
-          <label for="display-regions-selector-divisions">Attach to a region</label>
-          <input id="display-regions-selector-divisions" name="displayRegionsSelector" type="checkbox">
-        </div>
-        <label for="division-name">Name</label>
-        <input type="text" name="divisionName" id="division-name">
-        <label for="division-link">Link</label>
-        <input type="text" name="divisionLink" id="division-link">
+          <article class="form-unit">
+            <h2 class="section-title">Créer une région OU un département</h2>
+            <form id="divisions-form" action="/api/edit/division">
+              <div class="division-infos">
+                <div class="infos-group">
+                  <label for="division-name">Nom de l'entité</label>
+                  <input type="text" name="divisionName" id="division-name" placeholder="Exemple: Auvergne-Rhône-Alpes">
+                </div>
+                <div class="infos-group">
+                  <label for="division-link">Lien</label>
+                  <input type="text" name="divisionLink" id="division-link" placeholder="Exemple: https://agence.loxam.fr/fr/auvergne-rhone-alpes">
+                </div>
+              </div>
 
-        <input type="submit" value="valider">
-      </form>
+              <div class="division-choice">
+                <label for="division-region">Région</label>
+                <input type="radio" name="divisionType" id="division-region" value="regions" checked>
+                <label for="division-district">Département</label>
+                <input type="radio" name="divisionType" id="division-district" value="districts">
+              </div>
 
-      <div data-list="regions" id="regions-area"></div>
-      <div data-list="districts" id="districts-area"></div>
-      <div data-list="cities" id="cities-area"></div>
+              <div id="district-attach-region-option" class="district-attachment-options" style="display: none;">
+                <label for="display-regions-selector-divisions">Lier à une région</label>
+                <input id="display-regions-selector-divisions" name="displayRegionsSelector" type="checkbox">
+              </div>
+      
+              <input type="submit" value="valider">
+            </form>
+          </article>
+        </section>
 
-      <div>
-        <button id="download-json">Download Json</button>
+        <section class="results-section">
+          <h2 class="section-title">Prévisualisation du footer</h2>
+
+          <div class="main-content">
+            <div class="regions-wrapper">
+                <h3 class="list-title">Régions créées</h3>
+                <div data-list-primary="regions" id="regions-area"></div>
+            </div>
+  
+            <div class="districts-wrapper">
+              <h3 class="list-title">Départements créés</h3>
+              <div data-list-primary="districts" id="districts-area"></div>
+            </div>
+  
+            <div class="cities-wrapper">
+              <h3 class="list-title">Villes créées</h3>
+              <div data-list-primary="cities" id="cities-area"></div>
+            </div>
+          </div>
+
+          <div class="download-wrapper">
+            <button id="download-json">Télécharger le Json</button>
+          </div>
+        </section>
       </div>
   </div>
 

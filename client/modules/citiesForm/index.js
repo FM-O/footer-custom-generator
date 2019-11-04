@@ -84,6 +84,8 @@ class CitiesForm extends ObjectManager {
                     }
                 }, districtAttachment);
             }
+
+            this.form.reset();
         });
     }
 

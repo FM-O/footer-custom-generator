@@ -1,4 +1,5 @@
 const modules = require('./modules');
+require('./style/main.scss');
 
 const app = () => {
     for (const mod in modules) {
