@@ -72,6 +72,8 @@ class DivisionsForm extends ObjectManager {
                     }
                 }, regionAttachment);
             }
+
+            this.form.reset();
         });
     }
 

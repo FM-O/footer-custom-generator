@@ -3,20 +3,21 @@ import ObjectManager from '../services/objectManager';
 class RenderList extends ObjectManager {
     constructor() {
         super();
-        this.lists = document.querySelectorAll('[data-list]');
         this.objectManager = new ObjectManager;
 
-        this.exec();
+        window.addEventListener('load', this.exec.bind(this));
     }
 
     exec() {
-        [].forEach.call(this.lists, (list) => {
-            const dataGroupTarget = list.getAttribute('data-list');
+        const lists = document.querySelectorAll('[data-list-primary]');
+
+        [].forEach.call(lists, (list) => {
+            const dataGroupTarget = list.getAttribute('data-list-primary');
             const data = this.objectManager.get(dataGroupTarget);
 
             const oldCitiesList = list.firstElementChild;
             if (oldCitiesList !== null) {
-                element.removeChild(oldCitiesList);
+                list.removeChild(oldCitiesList);
             }
 
             const newList = this.fillListArea(data, dataGroupTarget);
@@ -56,7 +57,7 @@ class RenderList extends ObjectManager {
             if (data[element].hasOwnProperty('attachment')) {
                 const sublist = this.buildSublist(data[element].attachment);
 
-                if (sublist) {
+                if (sublist.hasChildNodes()) {
                     elementList.appendChild(sublist);
                 }
             }
@@ -131,12 +132,8 @@ class RenderList extends ObjectManager {
         sublist.className = 'sublist';
 
         for (const group in attachments) {
-            if (attachments.hasOwnProperty(group)) {
+            if (attachments.hasOwnProperty(group) && attachments[group].length > 0) {
                 const list = attachments[group];
-
-                if (list.length <= 0) {
-                    return false;
-                }
 
                 list.forEach(element => {
                     const line = this.createLine(group, element);
