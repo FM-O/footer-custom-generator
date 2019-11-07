@@ -1,10 +1,12 @@
 import ObjectManager from '../services/objectManager';
+import Notification from '../services/notification';
 
 class CitiesForm extends ObjectManager {
     constructor() {
         super();
         this.form = document.getElementById('cities-form');
         this.objectManager = new ObjectManager;
+        this.notif = new Notification('cities-form');
 
         this.exec();
     }
@@ -14,8 +16,24 @@ class CitiesForm extends ObjectManager {
     }
 
     bindEvents() {
+        const cityField = this.form.querySelector('input[name="cityName"]');
+        const linkField = this.form.querySelector('input[name="cityLink"]');
         const checkboxDdS = this.form.querySelector('input[name="displayDistrictsSelector"]');
         const checkboxDrS = this.form.querySelector('input[name="displayRegionsSelector"]');
+
+        cityField.addEventListener('keyup', () => {
+            const errorHelper = cityField.parentElement.querySelector('.helper');
+
+            if (cityField.value.length > 0 && cityField.classList.contains('invalid')) {
+                this.removeErrors(cityField);
+                return;
+            }
+
+            if (cityField.value.length <= 0 && !cityField.classList.contains('invalid')) {
+                errorHelper.innerHTML = 'Champ obligatoire';
+                cityField.classList.add('invalid');
+            }
+        });
 
         checkboxDdS.addEventListener('change', () => {
             if (checkboxDdS.checked) {
@@ -40,8 +58,8 @@ class CitiesForm extends ObjectManager {
             const checkboxDrS = this.form.querySelector('input[name="displayRegionsSelector"]');
             const checkboxDdS = this.form.querySelector('input[name="displayDistrictsSelector"]');
 
-            const cityName = this.form.querySelector('input[name="cityName"]').value;
-            const cityLink = this.form.querySelector('input[name="cityLink"]').value;
+            const cityName = cityField.value;
+            const cityLink = linkField.value;
 
             // Attachment logic
             const regionAttachment = this.form.querySelector('select[name="region-selector"]').value;
@@ -49,10 +67,23 @@ class CitiesForm extends ObjectManager {
             const dataRegionAttachments = this.objectManager.get('regions', regionAttachment);
             const dataDistrictAttachments = this.objectManager.get('districts', districtAttachment);
 
+            this.notif.add();
+
+            if (cityName.length <= 0) {
+                this.throwErrors({
+                    fields: [
+                        {element: cityField, error: 'required'}
+                    ],
+                    errorMessage: 'Remplissez les champs nécessaires'
+                });
+                return;
+            }
+
             // putting "name" property in your data (2nd option) make a completely new object.
             const normalizedName = this.objectManager.add('cities', {name: cityName, link: cityLink});
 
             if (!checkboxDrS.checked && !checkboxDdS.checked) {
+                this.notif.display('success', 'Votre ville a bien été créée');
                 return;
             }
             
@@ -84,6 +115,8 @@ class CitiesForm extends ObjectManager {
                     }
                 }, districtAttachment);
             }
+
+            this.notif.display('success', 'Votre ville a bien été créée');
 
             this.form.reset();
         });
@@ -117,6 +150,38 @@ class CitiesForm extends ObjectManager {
         }
 
         regionSelector.style.display = "none";
+    }
+
+    throwErrors(errors) {
+        const fields = errors.fields;
+        const errorMessage = errors.errorMessage;
+
+        this.notif.display('error', errorMessage);
+
+        fields.forEach(field => {
+            const errorHelper = field.element.parentElement.querySelector('.helper');
+
+            switch (field.error) {
+                case 'required':
+                    if (!field.element.classList.contains('invalid')) {
+                        field.element.classList.add('invalid');
+                    }
+                    errorHelper.innerHTML = 'Champ obligatoire';
+                    break;
+    
+                default:
+                    if (!field.element.classList.contains('invalid')) {
+                        field.element.classList.add('invalid');
+                    }
+                    errorHelper.innerHTML = 'Erreur';
+                    break;
+            }
+        });
+    }
+
+    removeErrors(field) {
+        field.parentElement.querySelector('.helper').innerHTML = '';
+        field.classList.remove('invalid');
     }
 }
   

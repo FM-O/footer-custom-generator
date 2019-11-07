@@ -1,10 +1,12 @@
 import ObjectManager from '../services/objectManager';
+import Notification from '../services/notification';
 
 class DivisionsForm extends ObjectManager {
     constructor() {
         super();
         this.form = document.getElementById('divisions-form');
         this.objectManager = new ObjectManager;
+        this.notif = new Notification('division-form');
 
         this.exec();
     }
@@ -14,8 +16,24 @@ class DivisionsForm extends ObjectManager {
     }
 
     bindEvents() {
+        const divisionField = this.form.querySelector('input[name="divisionName"]');
+        const linkField = this.form.querySelector('input[name="divisionLink"]');
         const divisionTypeInputs = this.form.querySelectorAll('input[name="divisionType"]');
         const checkboxDrS = this.form.querySelector('input[name="displayRegionsSelector"]');
+
+        divisionField.addEventListener('keyup', () => {
+            const errorHelper = divisionField.parentElement.querySelector('.helper');
+
+            if (divisionField.value.length > 0 && divisionField.classList.contains('invalid')) {
+                this.removeErrors(divisionField);
+                return;
+            }
+
+            if (divisionField.value.length <= 0 && !divisionField.classList.contains('invalid')) {
+                errorHelper.innerHTML = 'Champ obligatoire';
+                divisionField.classList.add('invalid');
+            }
+        });
 
         checkboxDrS.addEventListener('change', () => {
             if (checkboxDrS.checked) {
@@ -41,8 +59,8 @@ class DivisionsForm extends ObjectManager {
             e.preventDefault();
             let divisionType = 'regions';
 
-            const divisionName = this.form.querySelector('input[name="divisionName"]').value;
-            const divisionLink = this.form.querySelector('input[name="divisionLink"]').value;
+            const divisionName = divisionField.value;
+            const divisionLink = linkField.value;
 
             const regionAttachment = this.form.querySelector('select[name="region-selector"]').value;
             const dataRegionAttachments = this.objectManager.get('regions', regionAttachment);
@@ -54,6 +72,18 @@ class DivisionsForm extends ObjectManager {
             });
 
             const attachmentObject = divisionType === 'regions' ? {cities: [], districts: []} : {cities: []};
+
+            this.notif.add();
+
+            if (divisionName.length <= 0) {
+                this.throwErrors({
+                    fields: [
+                        {element: divisionField, error: 'required'}
+                    ],
+                    errorMessage: 'Remplissez les champs nécessaires'
+                });
+                return;
+            }
 
             const normalizedName = this.objectManager.add(divisionType, {name: divisionName, link: divisionLink, attachment: attachmentObject});
 
@@ -72,6 +102,8 @@ class DivisionsForm extends ObjectManager {
                     }
                 }, regionAttachment);
             }
+
+            this.notif.display('success', 'Votre entité a bien été créée');
 
             this.form.reset();
         });
@@ -108,6 +140,38 @@ class DivisionsForm extends ObjectManager {
         checkboxDrS.checked = false;
         regionSelector.style.display = "none";
         checkboxDrS.parentElement.style.display = "none";
+    }
+
+    throwErrors(errors) {
+        const fields = errors.fields;
+        const errorMessage = errors.errorMessage;
+
+        fields.forEach(field => {
+            const errorHelper = field.element.parentElement.querySelector('.helper');
+
+            switch (field.error) {
+                case 'required':
+                    if (!field.element.classList.contains('invalid')) {
+                        field.element.classList.add('invalid');
+                    }
+                    errorHelper.innerHTML = 'Champ obligatoire';
+                    break;
+    
+                default:
+                    if (!field.element.classList.contains('invalid')) {
+                        field.element.classList.add('invalid');
+                    }
+                    errorHelper.innerHTML = 'Erreur';
+                    break;
+            }
+        });
+
+        this.notif.display('error', errorMessage);
+    }
+
+    removeErrors(field) {
+        field.parentElement.querySelector('.helper').innerHTML = '';
+        field.classList.remove('invalid');
     }
 }
   
