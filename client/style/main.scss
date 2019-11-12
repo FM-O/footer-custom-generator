@@ -26,15 +26,24 @@ body {
                 background: #efefef;
                 padding: 30px 15px;
                 min-width: 320px;
+                max-width: 360px;
                 text-align: center;
                 font-size: 14px;
                 font-weight: 700;
     
                 & > span {
-                    color: black;
+                    display: inline-block;
+                    position: relative;
+                    padding-left: 40px;
+                    text-align: left;
+                    color: #313131;
                     
                     &::before {
                         content: "✓";
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        transform: translateY(-50%);
                         margin-right: 10px;
                         border-radius: 50%;
                         background: #d8d8d8;
@@ -68,6 +77,19 @@ body {
                         &::before {
                             content: "✘";
                             background: #d03030;
+                        }
+                    }
+                }
+
+                &.warn {
+                    border-left-color: #ffa000;
+
+                    & > span {
+                        &::before {
+                            content: "!";
+                            background: #ffa000;
+                            padding: 2px 13px;
+                            font-weight: 700;
                         }
                     }
                 }

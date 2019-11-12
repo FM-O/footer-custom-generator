@@ -1,9 +1,11 @@
 import ObjectManager from '../services/objectManager';
+import Notification from '../services/notification';
 
 class RenderList extends ObjectManager {
     constructor() {
         super();
         this.objectManager = new ObjectManager;
+        this.notif = new Notification('list');
 
         window.addEventListener('load', this.exec.bind(this));
     }
@@ -203,7 +205,9 @@ class RenderList extends ObjectManager {
     attachDeleteEvent(link) {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            this.notif.add();
             this.objectManager.delete(link.getAttribute('data-list'), link.getAttribute('data-element'));
+            this.notif.display('warn', 'L\'élément a bien été supprimé');
         });
     }
 }
