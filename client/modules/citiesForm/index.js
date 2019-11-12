@@ -119,6 +119,8 @@ class CitiesForm extends ObjectManager {
             this.notif.display('success', 'Votre ville a bien été créée');
 
             this.form.reset();
+            this.displayRegionSelector(false);
+            this.displayDistrictSelector(false);
         });
     }
 

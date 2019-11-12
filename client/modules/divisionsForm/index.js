@@ -44,6 +44,7 @@ class DivisionsForm extends ObjectManager {
             this.displayRegionSelector(false)
         });
 
+        // Check if radio button 'districts' is selected
         [].forEach.call(divisionTypeInputs, (input) => {
             input.addEventListener('change', () => {
                 if (input.value === 'districts') {
@@ -103,9 +104,13 @@ class DivisionsForm extends ObjectManager {
                 }, regionAttachment);
             }
 
-            this.notif.display('success', 'Votre entité a bien été créée');
+            // Translation for notif
+            const notifMessage = divisionType === 'regions' ? 'Votre région a bien été créée' : 'Votre département a bien été créé';
+
+            this.notif.display('success', notifMessage);
 
             this.form.reset();
+            this.displayRegionSelector(false);
         });
     }
 
