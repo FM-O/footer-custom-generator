@@ -24,7 +24,9 @@ class RenderList extends ObjectManager {
 
             const newList = this.fillListArea(data, dataGroupTarget);
 
-            list.appendChild(newList);
+            if (newList) {
+                list.appendChild(newList);
+            }
         });
 
         this.buildDistrictSelectors();
