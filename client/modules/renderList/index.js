@@ -1,9 +1,11 @@
 import ObjectManager from '../services/objectManager';
+import Notification from '../services/notification';
 
 class RenderList extends ObjectManager {
     constructor() {
         super();
         this.objectManager = new ObjectManager;
+        this.notif = new Notification('list');
 
         window.addEventListener('load', this.exec.bind(this));
     }
@@ -69,17 +71,24 @@ class RenderList extends ObjectManager {
     }
 
     buildRegionSelectors() {
-        const oldRegionSelector = document.getElementById('cities-region-selector');
+        const oldCityRegionSelector = document.getElementById('cities-region-selector');
+        const oldDivisionRegionSelector = document.getElementById('division-region-selector');
 
-        if (oldRegionSelector !== null) {
-            oldRegionSelector.parentElement.removeChild(oldRegionSelector);
+        if (oldCityRegionSelector !== null) {
+            oldCityRegionSelector.parentElement.removeChild(oldCityRegionSelector);
+        }
+
+        if (oldDivisionRegionSelector !== null) {
+            oldDivisionRegionSelector.parentElement.removeChild(oldDivisionRegionSelector);
         }
 
         const selector = document.createElement('select');
         selector.id = 'cities-region-selector';
         selector.name = 'region-selector';
         const cityRegionsOption = document.querySelector('#city-attach-region-option');
+        const cityRegionsOptionCheckbox = cityRegionsOption.querySelector('input[name="displayRegionsSelector"]');
         const districtRegionsOption = document.querySelector('#district-attach-region-option');
+        const districtRegionsOptionCheckbox = districtRegionsOption.querySelector('input[name="displayRegionsSelector"]');
 
         const regions = this.objectManager.get('regions');
 
@@ -98,10 +107,19 @@ class RenderList extends ObjectManager {
 
         cityRegionsOption.appendChild(selector);
         districtRegionsOption.appendChild(clonedSelector);
+
+        if (cityRegionsOptionCheckbox.checked) {
+            selector.style.display = "inline";
+        }
+
+        if (districtRegionsOptionCheckbox.checked) {
+            clonedSelector.style.display = "inline";
+        }
     }
 
     buildDistrictSelectors() {
         const cityDistrictsOption = document.querySelector('#city-attach-district-option');
+        const cityDistrictsOptionCheckbox = cityDistrictsOption.querySelector('input[name="displayDistrictsSelector"]');
         const oldDisctrictSelector = document.getElementById('cities-district-selector');
 
         if (oldDisctrictSelector !== null) {
@@ -125,6 +143,10 @@ class RenderList extends ObjectManager {
         }
 
         cityDistrictsOption.appendChild(selector);
+
+        if (cityDistrictsOptionCheckbox.checked) {
+            selector.style.display = "inline";
+        }
     }
 
     buildSublist(attachments) {
@@ -183,7 +205,9 @@ class RenderList extends ObjectManager {
     attachDeleteEvent(link) {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            this.notif.add();
             this.objectManager.delete(link.getAttribute('data-list'), link.getAttribute('data-element'));
+            this.notif.display('warn', 'L\'élément a bien été supprimé');
         });
     }
 }

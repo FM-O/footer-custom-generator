@@ -9,6 +9,94 @@ body {
         font-size: 20px;
     }
 
+    #main {
+        #notification-container {
+            position: fixed;
+            top: 5%;
+            right: 20px;
+            z-index: 1;
+
+            .notification {
+                transform: translateX(calc(100% + 20px));
+                transition: transform .5s ease;
+                box-shadow: 2px 2px 3px 1px #d8d8d8;
+                border: 1px solid #d2d2d2;
+                border-left: 15px solid #fff;
+                border-radius: 8px;
+                background: #efefef;
+                padding: 30px 15px;
+                min-width: 320px;
+                max-width: 360px;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 700;
+    
+                & > span {
+                    display: inline-block;
+                    position: relative;
+                    padding-left: 40px;
+                    text-align: left;
+                    color: #313131;
+                    
+                    &::before {
+                        content: "✓";
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        transform: translateY(-50%);
+                        margin-right: 10px;
+                        border-radius: 50%;
+                        background: #d8d8d8;
+                        padding: 2px 8px;
+                        vertical-align: middle;
+                        text-align: center;
+                        color: white;
+                        font-size: 20px;
+                        font-weight: 400;
+                    }
+                }
+    
+                &.active {
+                    transform: translateX(0);
+                }
+    
+                &.success {
+                    border-left-color: #469c46;
+    
+                    & > span {
+                        &::before {
+                            background: #469c45;
+                        }
+                    }
+                }
+    
+                &.error {
+                    border-left-color: #d03030;
+    
+                    & > span {
+                        &::before {
+                            content: "✘";
+                            background: #d03030;
+                        }
+                    }
+                }
+
+                &.warn {
+                    border-left-color: #ffa000;
+
+                    & > span {
+                        &::before {
+                            content: "!";
+                            background: #ffa000;
+                            padding: 2px 13px;
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     .main-wrapper {
         @media (min-width: 991px) {
             margin: auto;
@@ -38,6 +126,7 @@ body {
         .form-unit {
             position: relative;
             border: 1px solid black;
+            border-radius: 8px;
             margin: 0 15px;
             padding: 15px;
             width: calc(50% - 62px);
@@ -77,7 +166,21 @@ body {
                         margin-top: 10px;
 
                         & > input {
+                            border: 1px solid #b1b1b1;
                             padding: 8px 10px;
+
+                            &.invalid {
+                                border-color: #d03030;
+                            }
+                        }
+
+                        & > .helper {
+                            display: block;
+                            margin-top: 3px;
+                            padding-left: 2px;
+                            color: #d03030;
+                            font-size: 10px;
+                            font-weight: 700;
                         }
                     }
                 }
@@ -102,6 +205,7 @@ body {
     .results-section {
         position: relative;
         border: 1px solid black;
+        border-radius: 8px;
         margin: 30px 15px 0;
         padding: 15px;
 
