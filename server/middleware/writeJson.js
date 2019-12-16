@@ -8,7 +8,6 @@ module.exports = (req, res, next) => {
     }
 
     const jsonData = req.body.jsonData;
-    console.log(jsonData);
 
     // decode the token using a secret key-phrase
     return fs.writeFile('server/files_output/custom-footer.json', jsonData, 'utf-8', () => {

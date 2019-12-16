@@ -82,9 +82,10 @@ class Storage {
     }
 
     static getAllData() {
+      const dataSet = ['cities', 'districts', 'regions'];
       const allData = {};
       for (const data in localStorage) {
-        if (localStorage.hasOwnProperty(data)) {
+        if (localStorage.hasOwnProperty(data) && dataSet.includes(data)) {
           const dataset = this.__deserialize(localStorage[data]);
           allData[data] = dataset;
         }
