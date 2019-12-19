@@ -94,6 +94,7 @@ class DivisionsForm extends ObjectManager {
                 //check if district in array
                 if (attachedRegionDistricts.indexOf(normalizedName) < 0) {
                     attachedRegionDistricts.push(normalizedName);
+                    this.objectManager.updateAttachments({name: normalizedName, type: 'districts'}, {name: regionAttachment, type: 'regions'});
                 }
 
                 this.objectManager.add('regions', {
@@ -102,6 +103,12 @@ class DivisionsForm extends ObjectManager {
                         districts: attachedRegionDistricts
                     }
                 }, regionAttachment);
+            }
+
+            if (!checkboxDrS.checked && divisionType === 'districts') {
+                // If creating district without attachments 
+                // then we want to create a complete new district and delete old attachments
+                this.objectManager.deleteAttachments(normalizedName, 'districts');
             }
 
             // Translation for notif

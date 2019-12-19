@@ -83,6 +83,9 @@ class CitiesForm extends ObjectManager {
             const normalizedName = this.objectManager.add('cities', {name: cityName, link: cityLink});
 
             if (!checkboxDrS.checked && !checkboxDdS.checked) {
+                // If creating city without attachments at all
+                // then we want to create a complete new city and delete old attachments
+                this.objectManager.deleteAttachments(normalizedName, 'cities');
                 this.notif.display('success', 'Votre ville a bien été créée');
                 return;
             }
@@ -93,6 +96,7 @@ class CitiesForm extends ObjectManager {
                 //check if city in array
                 if (attachedRegionCities.indexOf(normalizedName) < 0) {
                     attachedRegionCities.push(normalizedName);
+                    this.objectManager.updateAttachments({name: normalizedName, type: 'cities'}, {name: regionAttachment, type: 'regions'});
                 }
                 this.objectManager.add('regions', {
                     attachment: {
@@ -108,6 +112,7 @@ class CitiesForm extends ObjectManager {
                 //check if city in array
                 if (attachedDistrictCities.indexOf(normalizedName) < 0) {
                     attachedDistrictCities.push(normalizedName);
+                    this.objectManager.updateAttachments({name: normalizedName, type: 'cities'}, {name: districtAttachment, type: 'districts'});
                 }
                 this.objectManager.add('districts', {
                     attachment: {

@@ -23,10 +23,8 @@ class EditJson {
         xhr.addEventListener('load', () => {
             if (xhr.status === 200) {
                 window.location.href = xhr.response;
-                console.log(xhr.response);
             } else {
-                console.log(xhr.status);
-                console.error('request api failed');
+               throw new Error('request api failed');
             }
         });
         xhr.send(data);
