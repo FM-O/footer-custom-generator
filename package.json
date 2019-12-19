@@ -1,6 +1,6 @@
 {
   "name": "footer-custom-generator",
-  "version": "0.3.0-alpha",
+  "version": "1.0.0-beta",
   "description": "Custom footer generator to simplyfy customer success process",
   "main": "index.js",
   "scripts": {
