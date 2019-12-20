@@ -47,7 +47,8 @@ class DivisionsForm extends ObjectManager {
         // Check if radio button 'districts' is selected
         [].forEach.call(divisionTypeInputs, (input) => {
             input.addEventListener('change', () => {
-                if (input.value === 'districts') {
+                const regions = this.objectManager.get('regions');
+                if (input.value === 'districts' && Object.keys(regions).length > 0) {
                     this.displayCheckboxSelector(true);
                     return true;
                 }
