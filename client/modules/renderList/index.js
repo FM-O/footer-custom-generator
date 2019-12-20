@@ -93,6 +93,11 @@ class RenderList extends ObjectManager {
         const districtRegionsOptionCheckbox = districtRegionsOption.querySelector('input[name="displayRegionsSelector"]');
 
         const regions = this.objectManager.get('regions');
+        cityRegionsOption.style.display = "block";
+
+        if (Object.keys(regions).length <= 0) {
+            cityRegionsOption.style.display = "none";
+        }
 
         for (const region in regions) {
             if (regions.hasOwnProperty(region)) {
@@ -133,6 +138,12 @@ class RenderList extends ObjectManager {
         selector.name = 'district-selector';
 
         const disctricts = this.objectManager.get('districts');
+
+        cityDistrictsOption.style.display = "block";
+
+        if (Object.keys(disctricts).length <= 0) {
+            cityDistrictsOption.style.display = "none";
+        }
 
         for (const district in disctricts) {
             if (disctricts.hasOwnProperty(district)) {
